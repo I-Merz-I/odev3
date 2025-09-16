@@ -1,0 +1,103 @@
+databaseChangeLog:
+  - changeSet:
+      id: 101-insert-roles
+      author: chatgpt
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: admin
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: name
+                  value: user
+
+  - changeSet:
+      id: 102-insert-categories-products-user
+      author: chatgpt
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: Books
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: name
+                  value: Electronics
+
+        - insert:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: "Clean Code"
+              - column:
+                  name: price
+                  valueNumeric: 79.90
+              - column:
+                  name: category_id
+                  valueNumeric: 1
+              - column:
+                  name: stock
+                  valueNumeric: 10
+
+        - insert:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: name
+                  value: "USB-C Hoparlör"
+              - column:
+                  name: price
+                  valueNumeric: 249.90
+              - column:
+                  name: category_id
+                  valueNumeric: 2
+              - column:
+                  name: stock
+                  valueNumeric: 5
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: password
+                  value: admin
+              - column:
+                  name: email
+                  value: abc@abc.com
+              - column:
+                  name: role_id
+                  valueNumeric: 1
