@@ -1,14 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/mydb
-    username: admin
-    password: admin
+    url: jdbc:postgresql://dpg-d34hk0fdiees73erspcg-a.oregon-postgres.render.com:5432/database_mrgf?sslmode=require
+    username: database_mrgf_user
+    password: NChjjjTg7w6nmToiiEEv5dD1rN8XC5Yi
   jpa:
     hibernate:
       ddl-auto: none
     show-sql: true
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
-
-server:
-  port: 8080
