@@ -1,14 +1,5 @@
-# Java 17 JDK tabanlı hafif imaj
 FROM eclipse-temurin:17-jdk-alpine
-
-# Çalışma klasörü
 WORKDIR /app
-
-# Maven Wrapper + kaynak kodu kopyala
 COPY . .
-
-# Projeyi build et
 RUN ./mvnw clean package -DskipTests
-
-# Uygulamayı çalıştır
 CMD ["java", "-jar", "target/odev3-0.0.1-SNAPSHOT.jar"]
