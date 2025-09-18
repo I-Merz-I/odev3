@@ -2,6 +2,7 @@ package com.pdf3.odev3.controller;
 
 import com.pdf3.odev3.model.Role;
 import com.pdf3.odev3.model.User;
+import com.pdf3.odev3.repository.RoleRepository;
 import com.pdf3.odev3.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,25 +12,23 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public AuthController(UserRepository userRepository) {
+    public AuthController(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     // REGISTER → yeni kullanıcı kaydı
     @PostMapping("/register")
     public User register(@RequestBody User user) {
-        // Admin mi, yoksa normal user mı?
+        Role role;
         if ("admin".equalsIgnoreCase(user.getUsername())) {
-            Role adminRole = new Role();
-            adminRole.setId(1L); // admin
-            user.setRole(adminRole);
+            role = roleRepository.findById(1L).orElseThrow(() -> new RuntimeException("Admin role not found"));
         } else {
-            Role userRole = new Role();
-            userRole.setId(2L); // user
-            user.setRole(userRole);
+            role = roleRepository.findById(2L).orElseThrow(() -> new RuntimeException("User role not found"));
         }
-
+        user.setRole(role);
         return userRepository.save(user);
     }
 
