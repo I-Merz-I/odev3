@@ -19,15 +19,19 @@ public class AuthController {
     // REGISTER → yeni kullanıcı kaydı
     @PostMapping("/register")
     public User register(@RequestBody User user) {
-        if (user.getRole() == null) {
-            // Varsayılan olarak "user" rolünü ver
-            Role defaultRole = new Role();
-            defaultRole.setId(2L); // 2 = user
-            user.setRole(defaultRole);
+        // Admin mi, yoksa normal user mı?
+        if ("admin".equalsIgnoreCase(user.getUsername())) {
+            Role adminRole = new Role();
+            adminRole.setId(1L); // admin
+            user.setRole(adminRole);
+        } else {
+            Role userRole = new Role();
+            userRole.setId(2L); // user
+            user.setRole(userRole);
         }
+
         return userRepository.save(user);
     }
-
 
     // LOGIN → kullanıcı adı ve şifre kontrolü
     @PostMapping("/login")
@@ -36,7 +40,7 @@ public class AuthController {
                 .filter(u -> u.getUsername().equals(loginUser.getUsername()) &&
                         u.getPassword().equals(loginUser.getPassword()))
                 .findFirst()
-                .map(u -> ResponseEntity.ok("Login successful!"))
+                .map(u -> ResponseEntity.ok("Login successful! Role: " + u.getRole().getName()))
                 .orElse(ResponseEntity.status(401).body("Invalid credentials"));
     }
 }
