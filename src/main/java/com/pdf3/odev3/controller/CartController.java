@@ -29,17 +29,13 @@ public class CartController {
 
     // Kullanıcının sepetini listele
     @GetMapping
-    public ResponseEntity<List<Cart>> getCart(@RequestHeader("username") String username) {
-        User user = userRepository.findAll().stream()
-                .filter(u -> u.getUsername().equals(username))
-                .findFirst()
-                .orElse(null);
-
+    public ResponseEntity<?> getCart(@RequestHeader("username") String username) {
+        User user = userRepository.findByUsername(username).orElse(null);
         if (user == null) {
-            return ResponseEntity.status(404).build();
+            return ResponseEntity.status(404).body("User not found");
         }
-
-        return ResponseEntity.ok(cartRepository.findByUser(user));
+        List<Cart> carts = cartRepository.findByUser(user);
+        return ResponseEntity.ok(carts);
     }
 
     // Sepete ürün ekle
@@ -47,11 +43,7 @@ public class CartController {
     public ResponseEntity<?> addToCart(@RequestHeader("username") String username,
                                        @RequestParam Long productId,
                                        @RequestParam(defaultValue = "1") Integer quantity) {
-        User user = userRepository.findAll().stream()
-                .filter(u -> u.getUsername().equals(username))
-                .findFirst()
-                .orElse(null);
-
+        User user = userRepository.findByUsername(username).orElse(null);
         if (user == null) {
             return ResponseEntity.status(404).body("User not found");
         }
