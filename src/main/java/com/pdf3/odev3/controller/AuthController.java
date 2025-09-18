@@ -1,5 +1,6 @@
 package com.pdf3.odev3.controller;
 
+import com.pdf3.odev3.model.Role;
 import com.pdf3.odev3.model.User;
 import com.pdf3.odev3.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,15 @@ public class AuthController {
     // REGISTER → yeni kullanıcı kaydı
     @PostMapping("/register")
     public User register(@RequestBody User user) {
+        if (user.getRole() == null) {
+            // Varsayılan olarak "user" rolünü ver
+            Role defaultRole = new Role();
+            defaultRole.setId(2L); // 2 = user
+            user.setRole(defaultRole);
+        }
         return userRepository.save(user);
     }
+
 
     // LOGIN → kullanıcı adı ve şifre kontrolü
     @PostMapping("/login")
