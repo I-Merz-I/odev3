@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/01-create-tables.yaml
   - include:
       file: db/changelog/02-insert-data.yaml
+  - include:
+      file: db/changelog/03-create-carts.yaml   # carts tablosu için eklendi
